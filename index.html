@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sana Özel ❤️</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #f4eadb;
+    color: #594738;
+    font-family: Georgia, serif;
+    min-height: 100vh;
+    overflow: hidden;
+    text-align: center;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+h1 {
+    font-size: clamp(25px, 5vw, 38px);
+    font-weight: normal;
+    margin-bottom: 18px;
+    animation: fadeIn 1s;
+}
+
+.message {
+    font-size: 20px;
+    margin-bottom: 28px;
+    min-height: 30px;
+    line-height: 1.6;
+}
+
+button {
+    background: #8b705b;
+    color: #fff9ef;
+    border: none;
+    padding: 15px 27px;
+    border-radius: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+    transition: .3s;
+    font-family: inherit;
+    box-shadow: 0 4px 12px #8b705b30;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    background: #70533f;
+}
+
+button:active {
+    transform: scale(.95);
+}
+
+.hidden {
+    display: none;
+}
+
+#secret {
+    position: fixed;
+    bottom: 20px;
+    left: 18px;
+    z-index: 10;
+    font-size: 12px;
+    color: #a38b76;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#secretMessage {
+    position: fixed;
+    bottom: 50px;
+    left: 18px;
+    font-size: 15px;
+    color: #87634f;
+    z-index: 10;
+}
+
+.item {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    animation: floatUp 3.5s ease-out forwards;
+    user-select: none;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(.4) rotate(-15deg);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(0) scale(1.1) rotate(8deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-170px) scale(.8) rotate(20deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.footer {
+    position: fixed;
+    bottom: 17px;
+    right: 18px;
+    font-size: 11px;
+    color: #b5a18d;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- GÜNAYDIN EKRANI -->
+
+<div class="container" id="goodMorning">
+
+    <h1 style="font-size: clamp(30px, 7vw, 48px);">
+        GÜNAAAYYDIINNNNNN ❤️
+    </h1>
+
+    <div class="message">
+        güne güzel başlayalım mı? 🤎
+    </div>
+
+    <button onclick="startLove()">
+        tıkla bakalım 🤎
+    </button>
+
+</div>
+
+
+<!-- ANA SAYFA -->
+
+<div class="container hidden" id="mainPage">
+
+    <h1>Senin için küçük bir şey... 🤎</h1>
+
+    <div class="message" id="message">
+        Hazırsan başlayalım.
+    </div>
+
+    <button id="first" onclick="firstClick()">
+        tıkla 🤎
+    </button>
+
+    <button id="second" class="hidden" onclick="secondClick()">
+        bir de buna tıkla
+    </button>
+
+    <button id="third" class="hidden" onclick="thirdClick()">
+        son bir şey...
+    </button>
+
+</div>
+
+
+<!-- GİZLİ BÖLÜM -->
+
+<div id="secret" onclick="secretClick()">
+    gizli kısım
+</div>
+
+<div id="secretMessage"></div>
+
+<div class="footer">sadece senin için.</div>
+
+
+<script>
+
+let stage = 0;
+let secretOpened = false;
+
+
+// BLUK SES EFEKTİ
+
+function sound() {
+
+    try {
+
+        const ctx = new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+
+        oscillator.type = "sine";
+
+        oscillator.frequency.setValueAtTime(
+            520,
+            ctx.currentTime
+        );
+
+        oscillator.frequency.exponentialRampToValueAtTime(
+            180,
+            ctx.currentTime + 0.16
+        );
+
+        gain.gain.setValueAtTime(
+            0.12,
+            ctx.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            ctx.currentTime + 0.2
+        );
+
+        oscillator.start();
+
+        oscillator.stop(
+            ctx.currentTime + 0.2
+        );
+
+        setTimeout(() => ctx.close(), 300);
+
+    } catch(e) {}
+
+}
+
+
+// GÜNAYDIN EKRANINDAN ANA SAYFAYA GEÇİŞ
+
+function startLove() {
+
+    sound();
+
+    document.getElementById("goodMorning")
+        .classList.add("hidden");
+
+    document.getElementById("mainPage")
+        .classList.remove("hidden");
+
+    shower(["☀️", "❤️", "🌸", "🤎"], 25);
+
+}
+
+
+// EKRANA FİGÜR ÇIKAR
+
+function createItem(type) {
+
+    const item = document.createElement("div");
+
+    item.className = "item";
+
+    item.textContent = type;
+
+    item.style.left =
+        Math.random() * 92 + "vw";
+
+    item.style.top =
+        Math.random() * 85 + "vh";
+
+    item.style.fontSize =
+        (22 + Math.random() * 24) + "px";
+
+    document.body.appendChild(item);
+
+    setTimeout(() => {
+        item.remove();
+    }, 3500);
+
+}
+
+
+// BİRDEN FAZLA FİGÜR ÇIKAR
+
+function shower(types, amount = 18) {
+
+    for (let i = 0; i < amount; i++) {
+
+        setTimeout(() => {
+
+            createItem(
+                types[
+                    Math.floor(Math.random() * types.length)
+                ]
+            );
+
+        }, i * 90);
+
+    }
+
+}
+
+
+// İLK BUTON
+
+function firstClick() {
+
+    if (stage >= 1) return;
+
+    stage = 1;
+
+    sound();
+
+    document.getElementById("message").textContent =
+        "Gülümsemen çok güzel. Bunu hiç unutma. 🤎";
+
+    document.getElementById("first")
+        .classList.add("hidden");
+
+    document.getElementById("second")
+        .classList.remove("hidden");
+
+    shower(
+        ["💐", "🌷", "🌸", "❤️", "🤍", "🌹"],
+        30
+    );
+
+}
+
+
+// İKİNCİ BUTON
+
+function secondClick() {
+
+    if (stage >= 2) return;
+
+    stage = 2;
+
+    sound();
+
+    document.getElementById("message").textContent =
+        "Hanımefendi, güzel olduğunuz kadar da vay canına falansınız. 🧸";
+
+    document.getElementById("second")
+        .classList.add("hidden");
+
+    document.getElementById("third")
+        .classList.remove("hidden");
+
+    shower(
+        ["🧸", "🤎", "❤️", "🐻", "💕"],
+        30
+    );
+
+}
+
+
+// SON BUTON
+
+function thirdClick() {
+
+    if (stage >= 3) return;
+
+    stage = 3;
+
+    sound();
+
+    document.getElementById("message").textContent =
+        "Hep gülümsemen için uğraşacağım. İyi ki varsın. 🤎";
+
+    document.getElementById("third")
+        .classList.add("hidden");
+
+    shower(
+        ["🧸", "💐", "🌷", "🐝", "❤️", "🌼", "💕"],
+        45
+    );
+
+}
+
+
+// BOŞ ALANA TIKLAYINCA FİGÜRLER
+
+document.addEventListener("click", function(e) {
+
+    if (
+        e.target.closest("button") ||
+        e.target.closest("#secret")
+    ) return;
+
+    if (stage === 0) return;
+
+    sound();
+
+    let types = [];
+
+    if (stage === 1) {
+
+        types = [
+            "💐", "🌷", "🌸", "❤️", "🌹"
+        ];
+
+    }
+
+    if (stage === 2) {
+
+        types = [
+            "🧸", "🐻", "💕", "❤️"
+        ];
+
+    }
+
+    if (stage === 3) {
+
+        types = [
+            "🧸", "💐", "🌷",
+            "🐝", "❤️", "🌼"
+        ];
+
+    }
+
+    shower(types, 5);
+
+});
+
+
+// GİZLİ KISIM
+
+function secretClick() {
+
+    sound();
+
+    const secret =
+        document.getElementById("secretMessage");
+
+    if (!secretOpened) {
+
+        secret.textContent =
+            "seni seviyorum. 🤎";
+
+        secretOpened = true;
+
+        shower(["🤎", "❤️"], 12);
+
+    } else {
+
+        secret.textContent = "";
+
+        secretOpened = false;
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
